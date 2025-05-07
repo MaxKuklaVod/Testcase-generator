@@ -1,14 +1,14 @@
 ### English version README.md
 ---
 
-### **Project Requirements: "AI-Powered Test Case Generator (Gemini 2.5)"**  
+### **Project Requirements: "AI-Powered Test Case Generator (Gemini 2.5 pro)"**  
 
 #### **1. General Description**  
 Develop a **web application** using FastAPI with HTML frontend that:  
 1. Accepts **text requirements (SRS)** via:  
    - Text field (`<textarea>`).  
    - Uploaded **PDF file** (with text extraction).  
-2. Uses **Gemini 2.5 API** to generate structured test cases.  
+2. Uses **Gemini 2.5 pro API** to generate structured test cases.  
 3. Allows users to:  
    - View results in a table.  
    - Filter test cases (positive/negative scenarios).  
@@ -24,7 +24,7 @@ Develop a **web application** using FastAPI with HTML frontend that:
 - PDF upload (using `PyPDF2`/`pdfplumber`).  
 - Validation: empty input prevention.  
 
-✅ **Test Case Generation via Gemini 2.5**  
+✅ **Test Case Generation via Gemini 2.5 pro**  
 - Prompt:  
   ```  
   Generate test cases from this text in the format:  
@@ -77,7 +77,7 @@ Develop a **web application** using FastAPI with HTML frontend that:
 ### **4. Technology Stack**  
 - **Backend**: FastAPI (Python).  
 - **Frontend**: HTML/CSS.  
-- **AI**: Gemini 2.5 API.  
+- **AI**: Gemini 2.5 pro API.  
 - **PDF**: `pdfplumber`.  
 - **Export**: `pandas`, `openpyxl`.  
 - **Database**: SQLite (for history, optional).  
@@ -87,14 +87,14 @@ Develop a **web application** using FastAPI with HTML frontend that:
 ### Русская версия README.md
 ---
 
-### **Требования к проекту: "Генератор тест-кейсов на основе AI (Gemini 2.5)"**  
+### **Требования к проекту: "Генератор тест-кейсов на основе AI (Gemini 2.5 pro)"**  
 
 #### **1. Общее описание**  
 Разработать **веб-приложение** на FastAPI с HTML-фронтендом, которое:  
 1. Принимает **текстовые требования (ТЗ)** через:  
    - Текстовое поле (`<textarea>`).  
    - Загруженный **PDF-файл** (с извлечением текста).  
-2. Использует **Gemini 2.5 API** для генерации структурированных тест-кейсов.  
+2. Использует **Gemini 2.5 pro API** для генерации структурированных тест-кейсов.  
 3. Позволяет:  
    - Просматривать результаты в таблице.  
    - Фильтровать тест-кейсы (позитивные/негативные).  
@@ -110,7 +110,7 @@ Develop a **web application** using FastAPI with HTML frontend that:
 - Загрузка PDF (поддержка `PyPDF2`/`pdfplumber`).  
 - Валидация: запрет на пустой ввод.  
 
-✅ **Генерация тест-кейсов через Gemini 2.5**  
+✅ **Генерация тест-кейсов через Gemini 2.5 pro**  
 - Промпт:  
   ```  
   На основе этого текста сгенерируй тест-кейсы в формате:  
@@ -163,7 +163,7 @@ Develop a **web application** using FastAPI with HTML frontend that:
 ### **4. Технологический стек**  
 - **Backend**: FastAPI (Python).  
 - **Frontend**: HTML/CSS.  
-- **AI**: Gemini 2.5 API.  
+- **AI**: Gemini 2.5 pro API.  
 - **PDF**: `pdfplumber`.  
 - **Экспорт**: `pandas`, `openpyxl`.  
 - **База**: SQLite (для истории, опционально).  

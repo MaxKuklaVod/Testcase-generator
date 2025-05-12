@@ -1,0 +1,32 @@
+# FastAPI и ASGI сервер
+fastapi>=0.100.0 # Рекомендуется указывать минимальные версии или диапазоны
+uvicorn[standard]>=0.20.0
+
+# База данных и ORM (для PostgreSQL)
+sqlalchemy>=2.0.0
+asyncpg>=0.27.0 # Драйвер для PostgreSQL
+
+# Аутентификация и безопасность
+passlib[bcrypt]>=1.7.4
+python-jose[cryptography]>=3.3.0
+
+# Работа с .env файлами
+python-dotenv>=1.0.0
+
+# Google Generative AI
+google-generativeai>=0.3.0
+
+# Обработка PDF 
+# PyPDF2 - для extract_text_from_pdf
+pypdf2>=3.0.0 # Если используете функцию с PyPDF2
+pdfplumber>=0.10.0 # Если используете функцию с pdfplumber
+
+# Анализ и экспорт данных
+pandas>=1.5.0
+openpyxl>=3.1.0 # Для экспорта в Excel (.xlsx)
+
+# Шаблонизация (уже включено в fastapi[all], но можно указать явно)
+jinja2>=3.1.0
+
+# Для обработки данных форм и загрузки файлов (уже включено в fastapi[all])
+python-multipart>=0.0.5

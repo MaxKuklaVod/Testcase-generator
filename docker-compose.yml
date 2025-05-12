@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    container_name: my_postgres_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      # Map container port 5432 to DB_PORT_HOST on the host
+      - "${DB_PORT_HOST}:5432"
+    healthcheck:
+
+      test: [ "CMD-SHELL", "pg_isready -U \"$$POSTGRES_USER\" -d \"$$POSTGRES_DB\"" ] # New - using shell expansion
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - app_network
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile  
+    container_name: my_fastapi_app
+    restart: unless-stopped
+    ports:
+      # Assuming APP_PORT_HOST is something like "8000:8000" or "80:8000"
+      # If APP_PORT_HOST is just a single number like "8000", it means "8000:port_exposed_by_container"
+      # If your FastAPI app inside the container listens on port 8000, then:
+      - "${APP_PORT_HOST}"
+        # If APP_PORT_HOST="8001:8000", maps host 8001 to container 8000
+        # If APP_PORT_HOST="8000", and container exposes 8000, maps host 8000 to container 8000.
+        # Ensure your Dockerfile EXPOSEs the correct port or your app listens on it.
+        # If your app listens on port 80, for example, use "${APP_PORT_HOST}:80"
+    volumes:
+      - .:/app
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      GEMINI_API_KEY: ${GEMINI_API_KEY}
+      # Corrected port to 5432 for inter-container communication
+      DATABASE_URL: "postgresql+asyncpg://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}"
+      SECRET_KEY: ${SECRET_KEY}
+      ALGORITHM: ${ALGORITHM}
+      ACCESS_TOKEN_EXPIRE_MINUTES: ${ACCESS_TOKEN_EXPIRE_MINUTES}
+    networks:
+      - app_network
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  app_network:
+    driver: bridge

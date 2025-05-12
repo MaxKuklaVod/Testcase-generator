@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="{{ lang }}"> <!-- Устанавливаем язык страницы -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ locales.app_title }}</title> <!-- Используем переменную -->
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script type="application/json" id="localesData">
+        {{ locales | tojson | safe }}
+    </script>
+    <script type="application/json" id="languageData">
+        { "currentLang": "{{ lang }}" }
+    </script>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <!-- Переключатель языка -->
+            <div class="language-switcher" style="text-align: right; margin-bottom: 10px;">
+                {% for lang_code in supported_languages %}
+                {% if lang_code == lang %}
+                <strong>{{ lang_code.upper() }}</strong>
+                {% else %}
+                <a href="?lang={{ lang_code }}">{{ lang_code.upper() }}</a>
+                {% endif %}
+                {% if not loop.last %} | {% endif %}
+                {% endfor %}
+            </div>
+            <h1>{{ locales.header_title }} <span class="ai-highlight">{{ locales.gemini_model_prefix }}{{
+                    locales.header_subtitle_ai }}</span></h1>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="form-section card">
+            <form id="testgenForm">
+                <input type="hidden" name="lang" value="{{ lang }}"> <!-- Передаем язык при отправке формы -->
+                <div class="input-group" id="textInputContainer">
+                    <label for="requirementsText">{{ locales.requirements_label }}</label>
+                    <textarea id="requirementsText" name="requirements_text" rows="10" maxlength="5000"
+                        placeholder="{{ locales.requirements_placeholder }}"></textarea>
+                    <small id="charCount" class="char-counter">0 / 5000</small> <!-- JS обновит это -->
+                </div>
+
+                <div class="input-group" id="fileInputContainer">
+                    <label class="file-label-info-text">{{ locales.or_upload_pdf }}</label>
+                    <input type="file" id="pdfFile" name="pdf_file" accept=".pdf" class="visually-hidden">
+                    <label for="pdfFile" id="chooseFileLabel" class="btn btn-primary btn-compact">{{
+                        locales.choose_file_button }}</label>
+
+                    <div id="selectedFileInfo" class="selected-file-info" style="display: none;">
+                        <div class="file-processing-indicator">
+                            <span class="spinner"></span> <span id="processingText">{{ locales.file_processing_text
+                                }}</span>
+                        </div>
+                        <div class="file-details">
+                            <span class="pdf-icon">📄</span>
+                            <p><span id="selectedFileIsText">{{ locales.selected_file_is }}</span> <strong
+                                    id="fileNameDisplay"></strong></p>
+                        </div>
+                        <button type="button" id="removeFileButton" class="btn btn-danger btn-small">{{
+                            locales.remove_file_button }}</button>
+                    </div>
+                </div>
+
+                <div class="advanced-options-toggle" id="advancedOptionsToggle">
+                    {{ locales.advanced_options_toggle }} <span class="toggle-icon">▾</span>
+                </div>
+                <div class="input-group advanced-prompt-section" id="promptSection" style="display: none;">
+                    <label for="customPrompt">{{ locales.custom_prompt_label }}</label>
+                    <textarea id="customPrompt" name="custom_prompt" rows="6"
+                        placeholder="{{ locales.custom_prompt_placeholder_example }}"></textarea>
+                </div>
+
+                <button type="submit" id="generateButton" class="btn btn-primary">
+                    <span class="btn-text">{{ locales.generate_button }}</span>
+                    <span class="btn-loader" style="display: none;"></span>
+                </button>
+                <div id="loadingIndicator" class="loading-text" style="display: none;">{{ locales.generating_text }}
+                </div>
+                <div id="errorMessages" class="error-message" style="display: none;"></div>
+            </form>
+        </section>
+
+        <section id="resultsSection" class="results-section card" style="display: none;">
+            <h2>{{ locales.results_header }}</h2>
+            <div class="controls-bar">
+                <div class="filters">
+                    <label for="typeFilter">{{ locales.filter_by_type_label }}</label>
+                    <select id="typeFilter">
+                        <option value="all">{{ locales.filter_option_all }}</option>
+                        <option value="Позитивный">{{ locales.filter_option_positive }}</option>
+                        <!-- Эти значения используются для фильтрации, должны совпадать с тем, что приходит от Gemini -->
+                        <option value="Негативный">{{ locales.filter_option_negative }}</option>
+                        <option value="Не определен">{{ locales.filter_option_undefined }}</option>
+                    </select>
+                </div>
+                <div class="export-buttons">
+                    <button id="exportCsvButton" class="btn btn-secondary">{{ locales.export_csv_button }}</button>
+                    <button id="exportExcelButton" class="btn btn-secondary">{{ locales.export_excel_button }}</button>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table id="resultsTable" class="results-table">
+                    <thead>
+                        <tr>
+                            <th>{{ locales.table_header_name }}</th>
+                            <th>{{ locales.table_header_steps }}</th>
+                            <th>{{ locales.table_header_expected_result }}</th>
+                            <th class="sortable" data-column="Тип">{{ locales.table_header_type }} <span
+                                    class="sort-icon"></span></th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>{{ locales.footer_text }}</p>
+        </div>
+    </footer>
+    <script src="/static/script.js"></script>
+</body>
+
+</html>
